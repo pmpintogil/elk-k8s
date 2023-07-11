@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: logging-ingress
+  namespace: logging
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: elastic.master01.local
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            path: /
+            backend:
+              service:
+                name: es-cluster
+                port:
+                  number: 9200
+    - host: kibana.master01.local
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            path: /
+            backend:
+              service:
+                name: kibana-svc
+                port:
+                  number: 5601
